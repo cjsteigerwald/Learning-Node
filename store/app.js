@@ -2,6 +2,7 @@ const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const errorController = require('./controllers/error');
 const { mongoConnect } = require('./util/database');
@@ -32,6 +33,18 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+// DB connection variables
+const userName = process.env.DB_USERNAME;
+const password = process.env.DB_PASSWORD;
+const dbName = 'shop';
+const dbURL = `cluster0.coqsd.mongodb.net/${dbName}`;
+
+mongoose
+  .connect(
+    `mongodb+srv://${userName}:${password}@${dbURL}?retryWrites=true&w=majority`,
+  )
+  .then((result) => {
+    console.log('Connected!');
+    app.listen(3000);
+  })
+  .catch((err) => console.log(err));
