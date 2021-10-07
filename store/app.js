@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  User.findById('615ae9c79eab21ac20cb7578')
+  User.findById('615d834038dfdb48a3ff5cec')
     .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((err) => console.log(err));
@@ -43,6 +43,18 @@ mongoose
     `mongodb+srv://${userName}:${password}@${dbURL}?retryWrites=true&w=majority`,
   )
   .then((result) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: 'Chris',
+          email: 'chris@test.com',
+          cart: {
+            items: [],
+          },
+        });
+        user.save();
+      }
+    });
     console.log('Connected!');
     app.listen(3000);
   })
