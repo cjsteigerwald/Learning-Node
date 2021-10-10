@@ -42,6 +42,7 @@ const dbURL = `cluster0.coqsd.mongodb.net/${dbName}`;
 mongoose
   .connect(
     `mongodb+srv://${userName}:${password}@${dbURL}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true },
   )
   .then((result) => {
     User.findOne().then((user) => {

@@ -1,2 +1,4 @@
 node_modules/*
 .env
+../NODE-FIRST-APP
+../node-second-app
