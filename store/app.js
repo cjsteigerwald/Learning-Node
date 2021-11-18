@@ -42,6 +42,8 @@ app.use(
   }),
 );
 
+app.use(csrfProtection);
+
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
@@ -54,7 +56,11 @@ app.use((req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
