@@ -21,7 +21,7 @@ router.post(
   '/add-product',
   [
     body('title').isString().isLength({ min: 3 }).trim(),
-    body('imageUrl').isURL(),
+    // body('imageUrl').isURL(),
     body('price').isFloat(),
     body('description').isLength({ min: 5, max: 400 }).trim(),
   ],
@@ -35,7 +35,7 @@ router.post(
   '/edit-product',
   [
     body('title', 'Invalid Title').isString().isLength({ min: 3 }).trim(),
-    body('imageUrl', 'Invalid Image URL').isURL(),
+    // body('imageUrl', 'Invalid Image URL').isURL(),
     body('price', 'Invalid Price').isFloat(),
     body('description', 'Invalid Description').isLength({ min: 5, max: 400 }).trim(),
   ],
